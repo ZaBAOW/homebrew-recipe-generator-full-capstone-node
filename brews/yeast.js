@@ -6,20 +6,25 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const YeastSchema = mongoose.Schema({
-    name: {
+    yeastName: {
         type: String,
         required: true,
         unique: false
     },
-    measurement: {
+    yeastMeasurement: {
         type: String,
         required: true,
         unique: false
     },
-    schedule: {
+    yeastSchedule: {
         type: String,
         required: true,
         unique: false
+    },
+    brewId: {
+        type: String,
+        required: true,
+        unique: true
     }
 });
 

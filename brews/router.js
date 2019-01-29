@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const express = require('mongoose');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const passport = require('passport');
@@ -16,20 +16,35 @@ const {Mash} = require('./mash');
 
 const router = express.Router();
 
-const jsonParser = bodyParser.json();
-
 // Post to submit new brew to the database *for each variable of the recipe*
-router.post('/', jwtAuth, jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
     console.log('submitting homebrew');
-    let brewName = req.body.recipe.brewName;
-    let hopsName = req.body.recipe.hopsName;
-    let hopsMeasurement = req.body.recipe.hopsMeasurement;
-    let yeastName = req.body.recipe.yeastName;
-    let yeastMeasurement = req.body.recipe.yeastMeasurement;
-    let maltName = req.body.recipe.maltName;
-    let maltMeasurement = req.body.recipe.maltMeasurement;
-    let mashSchedule = req.body.recipe.mashSchedule;
-    let userId = req.user.id;
+    let brewName = req.query.brewName;
+    let abv = req.query.abv;
+    let hopsName = req.query.hopsName;
+    let hopsMeasurement = req.query.hopsMeasurement;
+    let yeastName = req.query.yeastName;
+    let yeastMeasurement = req.query.yeastMeasurement;
+    let yeastSchedule = req.query.yeastSchedule;
+    let maltName = req.query.maltName;
+    let maltMeasurement = req.query.maltMeasurement;
+    let mashSchedule = req.query.mashSchedule;
+    let userId = req.query.userId;
+//    console.log(req.query);
+    const recipe = {
+        brewName,
+        abv,
+        hopsName,
+        hopsMeasurement,
+        yeastName,
+        yeastMeasurement,
+        yeastSchedule,
+        maltName,
+        maltMeasurement,
+        mashSchedule
+    }
+//    console.log(recipe);
+    
     let ObjectId = mongoose.Types.ObjectId;
     let userRecipe = new ObjectId(userId);
     Brew.findOne({
@@ -38,20 +53,21 @@ router.post('/', jwtAuth, jsonParser, (req, res) => {
     }).exec()
     .then(function (brew) {
         console.log('seeing if you have a recipe with the same name...');
-        if (brewName == "null" || brewName == null || brewName == "") {
+        if (brew == "null" || brew == null || brew == "") {
             return Brew.create({
-                brewName,
-                abv,
-                userId,
-                brewId,
+                brewName: recipe.brewName,
+                abv: recipe.abv,
+                userId: req.query.userId,
                 unique: false
             })
             .then(brew => {
                 console.log('submitted brewname and abv');
+                const brewId = JSON.stringify(brew._id);
+                console.log(brewId);
                 return Hops.create({
-                    hopsName,
-                    hopsMeasurement,
-                    brewId,
+                    hopsName: recipe.hopsName,
+                    hopsMeasurement: recipe.hopsMeasurement,
+                    brewId: brewId,
                     unique: false
                 })
                 .then(hops => {
@@ -59,37 +75,42 @@ router.post('/', jwtAuth, jsonParser, (req, res) => {
                 })
             })
             .then(brew => {
+                console.log('new brew card: ', brew);
+                const brewId = JSON.stringify(brew._id);
                 return Malt.create({
-                    maltName,
-                    maltMeasurement,
-                    brewId,
+                    maltName: recipe.maltName,
+                    maltMeasurement: recipe.maltMeasurement,
+                    brewId: brewId,
                     unique: false
                 })
                 .then(malt => {
                     console.log('submitted malt name and measurement');
                 })
             })
+//            .then(brew => {
+////                const brewId = JSON.stringify(brew._id);
+//                return Yeast.ceate({
+//                    yeastName: recipe.yeastName,
+//                    yeastMeasurement: recipe.yeastMeasurement,
+//                    yeastSchedule: recipe.yeastSchedule,
+//                    brewId: brewId,
+//                    unique: false
+//                })
+//                .then(yeast => {
+//                    console.log('submitted yeast name and measurement');
+//                })
+//            })
             .then(brew => {
-                return Yeast.ceate({
-                    yeastName,
-                    yeastMeasurement,
-                    brewId,
-                    unique: false
-                })
-                .then(yeast => {
-                    console.log('submitted yeast name and measurement');
-                })
-            })
-            .then(brew => {
-                return Mash.create({
-                    mashSchedule,
-                    brewId,
-                    unique: false
-                })
-                .then(mash => {
-                    console.log('submitted mash schedule');
-                })
-                return res.status(201).json(brew.serialize());
+//                const brewId = JSON.stringify(brew._id);
+//                    Mash.create({
+//                    mashSchedule: recipe.mashSchedule,
+//                    brewId: brewId,
+//                    unique: false
+//                })
+//                .then(mash => {
+//                    console.log('submitted mash schedule');
+//                })
+//                return res.status(201).json(brew.serialize());
             })
             .catch(err => {
                 console.log(err);
@@ -121,9 +142,84 @@ router.put('/:id', jsonParser, (req, res) => {
         _id: brewId
     };
     const brewName = updateData.brewName;
+    const abv = updateData.abv;
     const hopsName = updateData.hopsName;
     const hopsMeasurement = updateData.hopsMeasurement;
-    const yeast
+    const yeastName = updateData.yeastName;
+    const yeastMeasurement = updateData.yeastMeasurement;
+    const yeastSchedule = updateData.yeastSchedule;
+    const maltName = updateData.maltName;
+    const maltMeasurement = updateData.maltMeasurement;
+    const mashSchedule = updateData.mashSchedule;
+    
+    const updateHomebrew = {
+        brewName,
+        abv
+    };
+    
+    const updateMalt = {
+        maltName,
+        maltMeasurement
+    };
+    
+    const updateYeast = {
+        yeastName,
+        yeastMeasurement,
+        yeastSchedule
+    };
+    
+    const updateHops = {
+        hopsName,
+        hopsMeasurement
+    };
+    
+    const updateMash = {
+        mashSchedule
+    }
+    
+    const options = {
+        new: true
+    };
+    
+    return Brew.findOneAndUpdate(conditions, updateHomebrew, options)
+        .exec()
+        .then(homebrew => {
+                console.log(homebrew);
+                return res.status(204).end();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    return Malt.findOneAndUpdate(conditions, updateMalt, options)
+        .exec()
+        .then(malt => {
+            console.log(malt);
+            return res.status(204).end();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    return Hops.findOneAndUpdate(conditions, updateHops, options)
+        .exec()
+        .then(hops => {
+            console.log(hops);
+            return res.status(204).end();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    return Yeast.findOneAndUpdate(conditions, updateYeast, options)
+        .exec()
+        .then(yeast => {
+            console.log(yeast);
+            return res.status(204).end();
+        })
+        .catch(err => {
+            console.log(err);
+        })
 })
 
 // Get by id to retrieve user's brews

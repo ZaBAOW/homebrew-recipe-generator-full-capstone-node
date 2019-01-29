@@ -6,15 +6,20 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const MaltSchema = mongoose.Schema({
-    name: {
+    maltNameame: {
         type: String,
         required: true,
         unique: false
     },
-    measurement: {
+    maltMeasurement: {
         type: String,
         required: true,
         unique: false
+    },
+    brewId: {
+        type: String,
+        required: true,
+        unique: true
     }
 });
 

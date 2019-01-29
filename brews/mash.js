@@ -6,10 +6,15 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const MashSchema = mongoose.Schema({
-    Schedule: {
+    mashSchedule: {
         type: String,
         required: true,
         unique: false
+    },
+    brewId: {
+        type: String,
+        required: true,
+        unique: true
     }
 });
 

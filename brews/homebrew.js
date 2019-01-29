@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const BrewSchema = mongoose.Schema({
-    title: {
+    brewName: {
         type: String,
         required: true,
         unique: false
@@ -16,13 +16,22 @@ const BrewSchema = mongoose.Schema({
         required: true,
         unique: false
     },
-    id: this._id
+    userId: {
+        type: String,
+        unique: true
+    }
 });
+
+BrewSchema.virtual('categoryId').get(function() {
+    return this._id;
+})
 
 BrewSchema.methods.serialize = function() {
     return {
-        title: this.title || '',
-        abv: this.abv || ''
+        brewName: this.brewName || '',
+        abv: this.abv || '',
+        userId: this.userId,
+        brewId: this._id
     };
 };
     

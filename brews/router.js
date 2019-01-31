@@ -136,11 +136,18 @@ router.post('/', jsonParser, (req, res) => {
 
 // Put to edit existing brew
 router.put('/:id', jsonParser, (req, res) => {
-    const updateData = req.body.recipe;
+    const updateData = req.query;
     let ObjectId = mongoose.Types.ObjectId;
-    let brewId = new ObjectId(req.params.id);
-    const conditions = {
-        _id: brewId
+    let userId = new ObjectId(req.params.id);
+    console.log(userId);
+    const conditionOne = {
+        userId: userId
+    };
+    const editedId = req.query.brewId.replace(/['"]+/g, '');
+    let brewId = new ObjectId(editedId);
+    console.log(brewId);
+    const conditionTwo = {
+        brewId: brewId
     };
     const brewName = updateData.brewName;
     const abv = updateData.abv;
@@ -182,40 +189,50 @@ router.put('/:id', jsonParser, (req, res) => {
         new: true
     };
     
-    return Brew.findOneAndUpdate(conditions, updateHomebrew, options)
+    return Brew.findOneAndUpdate(conditionOne, updateHomebrew, options)
         .exec()
         .then(homebrew => {
-                console.log(homebrew);
+                console.log('updated homebrew:', homebrew);
                 return res.status(204).end();
         })
         .catch(err => {
             console.log(err);
         })
     
-    return Malt.findOneAndUpdate(conditions, updateMalt, options)
+    return Malt.findOneAndUpdate(conditionTwo, updateMalt, options)
         .exec()
         .then(malt => {
-            console.log(malt);
+            console.log('updated malt', malt);
             return res.status(204).end();
         })
         .catch(err => {
             console.log(err);
         })
     
-    return Hops.findOneAndUpdate(conditions, updateHops, options)
+    return Hops.findOneAndUpdate(conditionTwo, updateHops, options)
         .exec()
         .then(hops => {
-            console.log(hops);
+            console.log('updated hops', hops);
             return res.status(204).end();
         })
         .catch(err => {
             console.log(err);
         })
     
-    return Yeast.findOneAndUpdate(conditions, updateYeast, options)
+    return Yeast.findOneAndUpdate(conditionTwo, updateYeast, options)
         .exec()
         .then(yeast => {
-            console.log(yeast);
+            console.log('updated yeast', yeast);
+            return res.status(204).end();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    
+    return Mash.findOneAndUpdate(conditionTwo, updateMash, options)
+        .exec()
+        .then(mash => {
+            console.log('updated mash', mash)
             return res.status(204).end();
         })
         .catch(err => {

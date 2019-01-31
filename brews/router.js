@@ -30,6 +30,7 @@ router.post('/', jsonParser, (req, res) => {
     let maltMeasurement = req.query.maltMeasurement;
     let mashSchedule = req.query.mashSchedule;
     let userId = req.query.userId;
+    let brewId = '';
 //    console.log(req.query);
     const recipe = {
         brewName,
@@ -62,7 +63,7 @@ router.post('/', jsonParser, (req, res) => {
             })
             .then(brew => {
                 console.log('submitted brewname and abv');
-                const brewId = JSON.stringify(brew._id);
+                brewId = JSON.stringify(brew._id);
                 console.log(brewId);
                 return Hops.create({
                     hopsName: recipe.hopsName,
@@ -74,43 +75,43 @@ router.post('/', jsonParser, (req, res) => {
                     console.log('submitted hops name and measurement');
                 })
             })
-            .then(brew => {
-                console.log('new brew card: ', brew);
-                const brewId = JSON.stringify(brew._id);
+            .then(brews => {
+                const id = brewId;
                 return Malt.create({
                     maltName: recipe.maltName,
                     maltMeasurement: recipe.maltMeasurement,
-                    brewId: brewId,
+                    brewId: id,
                     unique: false
                 })
                 .then(malt => {
                     console.log('submitted malt name and measurement');
                 })
             })
-//            .then(brew => {
-////                const brewId = JSON.stringify(brew._id);
-//                return Yeast.ceate({
-//                    yeastName: recipe.yeastName,
-//                    yeastMeasurement: recipe.yeastMeasurement,
-//                    yeastSchedule: recipe.yeastSchedule,
-//                    brewId: brewId,
-//                    unique: false
-//                })
-//                .then(yeast => {
-//                    console.log('submitted yeast name and measurement');
-//                })
-//            })
             .then(brew => {
-//                const brewId = JSON.stringify(brew._id);
-//                    Mash.create({
-//                    mashSchedule: recipe.mashSchedule,
-//                    brewId: brewId,
-//                    unique: false
-//                })
-//                .then(mash => {
-//                    console.log('submitted mash schedule');
-//                })
-//                return res.status(201).json(brew.serialize());
+                const id = brewId;
+                return Yeast.create({
+                    yeastName: recipe.yeastName,
+                    yeastMeasurement: recipe.yeastMeasurement,
+                    yeastSchedule: recipe.yeastSchedule,
+                    brewId: id,
+                    unique: false
+                })
+                .then(yeast => {
+                    console.log('submitted yeast name and measurement');
+                })
+            })
+            .then(brew => {
+                const id = brewId;
+                    Mash.create({
+                    mashSchedule: recipe.mashSchedule,
+                    brewId: id,
+                    unique: false
+                })
+                .then(mash => {
+                    console.log('submitted mash schedule');
+                })
+                brewId = '';
+                return res.status(201);
             })
             .catch(err => {
                 console.log(err);

@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const MaltSchema = mongoose.Schema({
-    maltNameame: {
+    maltName: {
         type: String,
         required: true,
         unique: false

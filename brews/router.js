@@ -147,7 +147,7 @@ router.put('/:id', jsonParser, (req, res) => {
     let brewId = new ObjectId(editedId);
     console.log(brewId);
     const conditionTwo = {
-        brewId: brewId
+        brewId: JSON.stringify(brewId)
     };
     const brewName = updateData.brewName;
     const abv = updateData.abv;
@@ -189,7 +189,7 @@ router.put('/:id', jsonParser, (req, res) => {
         new: true
     };
     
-    return Brew.findOneAndUpdate(conditionOne, updateHomebrew, options)
+    Brew.findOneAndUpdate(conditionOne, updateHomebrew, options)
         .exec()
         .then(homebrew => {
                 console.log('updated homebrew:', homebrew);
@@ -199,7 +199,7 @@ router.put('/:id', jsonParser, (req, res) => {
             console.log(err);
         })
     
-    return Malt.findOneAndUpdate(conditionTwo, updateMalt, options)
+    Malt.findOneAndUpdate(conditionTwo, updateMalt, options)
         .exec()
         .then(malt => {
             console.log('updated malt', malt);
@@ -209,7 +209,7 @@ router.put('/:id', jsonParser, (req, res) => {
             console.log(err);
         })
     
-    return Hops.findOneAndUpdate(conditionTwo, updateHops, options)
+    Hops.findOneAndUpdate(conditionTwo, updateHops, options)
         .exec()
         .then(hops => {
             console.log('updated hops', hops);
@@ -219,7 +219,7 @@ router.put('/:id', jsonParser, (req, res) => {
             console.log(err);
         })
     
-    return Yeast.findOneAndUpdate(conditionTwo, updateYeast, options)
+    Yeast.findOneAndUpdate(conditionTwo, updateYeast, options)
         .exec()
         .then(yeast => {
             console.log('updated yeast', yeast);

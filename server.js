@@ -23,6 +23,7 @@ const {router: brewRouter} = require('./brews');
 const app = express();
 const jsonParser = bodyParser.json;
 
+app.use(express.static('public'));
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -39,11 +40,6 @@ passport.use(jwtStrategy);
 
 app.use(passport.initialize());
 
-
-app.get('/', function (req, res, next) {
-    req.brews.views = (req.session.views || 0) + 1;
-    res.end(req.session.views + ' views');
-});
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 

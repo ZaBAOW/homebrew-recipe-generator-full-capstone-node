@@ -3,6 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const {User} = require('./models');
+const {createAuthToken} = require('../auth');
+const { JWT_SECRET } = require("../config");
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -119,7 +122,12 @@ router.post('/', jsonParser, (req, res) => {
       });
     })
     .then(user => {
-      return res.status(201).json(user.serialize());
+      const body = user.serialize();
+      console.log(body);
+      console.log(JWT_SECRET);
+      const token = jwt.sign(body, JWT_SECRET);
+      console.log(token);
+      return res.json({ token })
     })
     .catch(err => {
       // Forward validation errors on to the client, otherwise give a 500
@@ -127,6 +135,7 @@ router.post('/', jsonParser, (req, res) => {
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
+      console.log(err);
       res.status(500).json({code: 500, message: 'Internal server error'});
     });
 });

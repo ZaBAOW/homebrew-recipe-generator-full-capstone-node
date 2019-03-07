@@ -241,69 +241,69 @@ router.put('/:id', jsonParser, (req, res) => {
 })
 
 // Get by id to retrieve user's brews
-//router.get('/:id', jsonParser, (req, res) => {
-//    const id = req.params.id;
-//    let hops = '';
-//    let malt = '';
-//    let yeast = '';
-//    let mash = '';
-//    return Brew.findById(id).exec()
-//        .then((brew) => {
-//            console.log('brewId: ', brew.id);
-//            const brewId = JSON.stringify(brew.id);
-//            Hops.find({brewId: brewId})
-//            .then(hops => {
-//                console.log('hops: ',hops);
-//                hops = hops;
-//            })
-//            .catch(err => {
-//                console.log(err);
-//            })
-//            Malt.find({brewId: brewId})
-//            .then(malt => {
-//                malt = malt;
-//                console.log(malt);
-//            })
-//            .catch(err => {
-//                console.log(err);
-//            })
-//            Yeast.find({brewId: brewId})
-//            .then(yeast => {
-//                yeast = yeast;
-//                console.log(yeast);
-//            })
-//            .catch(err => {
-//                console.log(err);
-//            })
-//            return Mash.find({brewId: brewId})
-//            .then(mash => {
-//                mash = mash;
-//                console.log(mash);
-//            })
-//            .catch(err => {
-//                console.log(err);
-//            })
-//            return res.status(200).json({
-//                data: {
-//                    brew,
-//                    hops,
-//                    malt,
-//                    yeast,
-//                    mash
-//                },
-//                message: 'brew found'
-//            });
-//        })
-//        .catch((err) => {
-//            console.log(err);
-//            return res.status(400).json({
-//                message: "no brews found"
-//            });
-//        })
-//});
+router.get('/getArchive/:id', jsonParser, (req, res) => {
+    const id = req.params.id;
+    let hops = '';
+    let malt = '';
+    let yeast = '';
+    let mash = '';
+    return Brew.findById(id).exec()
+        .then((brew) => {
+            console.log('brewId: ', brew.id);
+            const brewId = JSON.stringify(brew.id);
+            Hops.find({brewId: brewId})
+            .then(hops => {
+                console.log('hops: ',hops);
+                hops = hops;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            Malt.find({brewId: brewId})
+            .then(malt => {
+                malt = malt;
+                console.log(malt);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            Yeast.find({brewId: brewId})
+            .then(yeast => {
+                yeast = yeast;
+                console.log(yeast);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            return Mash.find({brewId: brewId})
+            .then(mash => {
+                mash = mash;
+                console.log(mash);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            return res.status(200).json({
+                data: {
+                    brew,
+                    hops,
+                    malt,
+                    yeast,
+                    mash
+                },
+                message: 'brew found'
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(400).json({
+                message: "no brews found"
+            });
+        })
+});
 
-// Get to retrieve all brews, then parse for names that match keyword
-router.get('/', (req, res) => {
+// Get to retrieve all brews
+router.get('/getAll', (req, res) => {
     return Brew.find()
         .then((brew) => {
             console.log('brews retrieved');
@@ -316,7 +316,7 @@ router.get('/', (req, res) => {
 
 
 // Get to retireve all brews that contain keyword
-router.get('/discover/:keyword', (req, res) => { 
+router.get('/get-one/:keyword', (req, res) => { 
     console.log('searching for brews...');
     const keyword = req.params.keyword;
     console.log(keyword);
@@ -331,8 +331,9 @@ router.get('/discover/:keyword', (req, res) => {
     });
 });
 
+
 // Delete to remove a brew from the database
-router.delete('/:id', (req, res) => {
+router.delete('/deleteRecipe/:id', (req, res) => {
     const idForRemoval = req.params.id;
     Brew.findByIdAndRemove(idForRemoval)
     .then(() => {

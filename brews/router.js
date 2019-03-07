@@ -316,7 +316,7 @@ router.get('/', (req, res) => {
 
 
 // Get to retireve all brews that contain keyword
-router.get('/search/:keyword', jsonParser, (req, res) => { 
+router.get('/discover/:keyword', (req, res) => { 
     console.log('searching for brews...');
     const keyword = req.params.keyword;
     console.log(keyword);

@@ -303,7 +303,7 @@ router.get('/getArchive/:id', jsonParser, (req, res) => {
 });
 
 // Get to retrieve all brews
-router.get('/getAll', (req, res) => {
+router.get('/get-all', (req, res) => {
     return Brew.find()
         .then((brew) => {
             console.log('brews retrieved');
@@ -320,11 +320,20 @@ router.get('/get-one/:keyword', (req, res) => {
     console.log('searching for brews...');
     const keyword = req.params.keyword;
     console.log(keyword);
-    Brew.find({ brewName: keyword})
+    Brew.find()
     .then((brews) => {
-        console.log(brews);
+        let searchResults = []
+        console.log(brews.length);
+        for(var i=0; i < brews.length; i++) {
+            console.log('sorting through brews');
+            if(brews[i].brewName.includes(keyword)) {
+                searchResults.push(brews[i]);
+            } else {
+                return;
+            }
+        }
         console.log(`Found all beers that contain `, keyword);
-        return res.status(200).send(brews).end();
+        return res.status(200).send(searchResults).end();
     })
     .catch((err) => {
         console.log(err);

@@ -3,6 +3,7 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const { Logged } = require('./models');
 
 const config = require('../config');
 const router = express.Router();
@@ -29,6 +30,32 @@ const jwtAuth = passport.authenticate('jwt', {session: false});
 router.post('/refresh', jwtAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   res.json({authToken});
+});
+
+router.get("/userLoggedIn", function(req, res) {
+  Logged.find({})
+    .then(users => {
+      res.json({loggedIn: users});
+    })
+    .catch(err => {
+      return res.status(400).json(res.statusMessage);
+    });
+});
+
+router.post("/userLoggedIn", function(req, res) {
+  console.log("creating persistant logged session...");
+  Logged.create({
+    usersLoggedIn: req.body.user
+  })
+  .then(user => {
+    Logged.find({})
+      .then(users => {
+        res.json({loggedIn: users});
+      });
+  })
+  .catch(err => {
+    return res.status(400).json(res.statusMessage);
+  });
 });
 
 module.exports = {router};

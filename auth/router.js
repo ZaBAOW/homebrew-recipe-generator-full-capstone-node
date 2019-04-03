@@ -20,6 +20,7 @@ const localAuth = passport.authenticate('local', {session: false});
 router.use(bodyParser.json());
 // The user provides a username and password to login
 router.post('/login', localAuth, (req, res) => {
+  console.log('generating your authToken...');
   const authToken = createAuthToken(req.user.serialize());
   res.json({authToken});
 });
@@ -44,18 +45,34 @@ router.get("/userLoggedIn", function(req, res) {
 
 router.post("/userLoggedIn", function(req, res) {
   console.log("creating persistant logged session...");
+  console.log(req.body.user);
   Logged.create({
-    usersLoggedIn: req.body.user
+    usersLoggedIn: req.body.user.username
   })
   .then(user => {
+    console.log(user);
     Logged.find({})
       .then(users => {
+        console.log(users);
         res.json({loggedIn: users});
       });
   })
   .catch(err => {
     return res.status(400).json(res.statusMessage);
   });
+});
+
+router.delete("/userLoggedIn", function(req, res) {
+    console.log(req.body.user);
+    Logged.deleteMany({
+        usersLoggedIn: req.body.user
+    })
+    .then(user => {
+        console.log(`Deleted ${user}!`);
+    })
+    .catch(err => {
+        return res.status(400).json(res.statusMessage);
+    });
 });
 
 module.exports = {router};

@@ -63,7 +63,7 @@ router.post("/userLoggedIn", function(req, res) {
 });
 
 router.delete("/userLoggedIn", function(req, res) {
-    console.log(req.body.user);
+    console.log("user to be deleted for log list: ", req.body.user);
     Logged.deleteMany({
         usersLoggedIn: req.body.user
     })

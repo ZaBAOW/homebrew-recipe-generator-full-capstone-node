@@ -68,7 +68,8 @@ router.delete("/userLoggedIn", function(req, res) {
         usersLoggedIn: req.body.user
     })
     .then(user => {
-        console.log(`Deleted ${user}!`);
+        console.log(`Deleted user`);
+        return res.status(201).json({message: 'Deleted user from login list'});
     })
     .catch(err => {
         return res.status(400).json(res.statusMessage);

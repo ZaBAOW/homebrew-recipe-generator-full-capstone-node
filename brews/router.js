@@ -243,44 +243,43 @@ router.put('/:id', jsonParser, (req, res) => {
 // Get by id to retrieve user's brews
 router.get('/getArchive/:id', jsonParser, (req, res) => {
     const id = req.params.id;
-    let hops = '';
-    let malt = '';
-    let yeast = '';
-    let mash = '';
     return Brew.find({ userId: id}).exec()
         .then((brew) => {
             console.log('brew list: ', brew);
-            for (var i=0; i <= brew.length; i++) {
-                console.log('brew: ', brew[0]._id);
-                const brewId = JSON.stringify(brew._id);
+            console.log('length of brew: ', brew.length);
+            for (var i=0; i < brew.length-1; i++) {
+                console.log('brew: ', brew[i]._id);
+                const brewId = JSON.stringify(brew[i]._id);
+                console.log('current interval: ', i);
+                console.log('stringified brewId: ', brewId);
                 Hops.find({brewId: brewId})
                 .then(hops => {
-                    console.log('hops: ',hops);
-                    hops = hops;
+                    console.log('hops: ',hops[0]);
+                    const returnHops = hops[0];
                 })
                 .catch(err => {
                     console.log('hopsError', err);
                 })
                 Malt.find({brewId: brewId})
                 .then(malt => {
-                    malt = malt;
-                    console.log('malt', malt);
+                    console.log('malt', malt[0]);
+                    let returnMalt = malt[0];
                 })
                 .catch(err => {
                     console.log('maltError', err);
                 })
                 Yeast.find({brewId: brewId})
                 .then(yeast => {
-                    yeast = yeast;
-                    console.log('yeast', yeast);
+                    console.log('yeast', yeast[0]);
+                    let returnYeast = yeast[0];
                 })
                 .catch(err => {
                     console.log('yeastError', err);
                 })
-                return Mash.find({brewId: brewId})
+                Mash.find({brewId: brewId})
                 .then(mash => {
-                    mash = mash;
-                    console.log('mash', mash);
+                    console.log('mash', mash[0]);
+                    let returnMash = mash[0];
                 })
                 .catch(err => {
                     console.log('mashError', err);
@@ -289,10 +288,10 @@ router.get('/getArchive/:id', jsonParser, (req, res) => {
             return res.status(200).json({
                 data: {
                     brew,
-                    hops,
-                    malt,
-                    yeast,
-                    mash
+                    returnHops,
+                    returnMalt,
+                    returnYeast,
+                    returnMash
                 },
                 message: 'brew found'
             });

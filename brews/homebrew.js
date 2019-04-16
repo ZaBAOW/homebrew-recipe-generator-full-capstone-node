@@ -18,7 +18,7 @@ const BrewSchema = mongoose.Schema({
     },
     userId: {
         type: String,
-        unique: true
+        unique: false
     }
 });
 

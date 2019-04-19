@@ -249,11 +249,14 @@ router.get('/getArchive/:id', jsonParser, (req, res) => {
             console.log('brew list: ', brew);
             console.log('length of brew: ', brew.length);
             if (brew.length === 0) {
-                return res.status(400).json({message: 'you have not posted any recipes'});
+                return res.status(400).json({
+                    status: 400,
+                    message: 'you have not posted any recipes'})
             } else{
                 return res.status(200).json({
                     data: brew,
-                    message: 'got your brews'
+                    message: 'got your brews',
+                    status: 200
                 });
             }
         })

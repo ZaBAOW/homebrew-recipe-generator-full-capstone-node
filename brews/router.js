@@ -19,19 +19,20 @@ const router = express.Router();
 // Post to submit new brew to the database *for each variable of the recipe*
 router.post('/', jsonParser, (req, res) => {
     console.log('submitting homebrew');
-    let brewName = req.query.brewName;
-    let abv = req.query.abv;
-    let hopsName = req.query.hopsName;
-    let hopsMeasurement = req.query.hopsMeasurement;
-    let yeastName = req.query.yeastName;
-    let yeastMeasurement = req.query.yeastMeasurement;
-    let yeastSchedule = req.query.yeastSchedule;
-    let maltName = req.query.maltName;
-    let maltMeasurement = req.query.maltMeasurement;
-    let mashSchedule = req.query.mashSchedule;
-    let userId = req.query.userId;
+    console.log(req.body);
+    let brewName = req.body.brew.brewName;
+    let abv = req.body.brew.abv;
+    let hopsName = req.body.brew.hopsName;
+    let hopsMeasurement = req.body.brew.hopsMeasure;
+    let yeastName = req.body.brew.yeastName;
+    let yeastMeasurement = req.body.brew.yeastMeasure;
+    let yeastSchedule = req.body.brew.yeastSchedule;
+    let maltName = req.body.brew.maltName;
+    let maltMeasurement = req.body.brew.maltMeasure;
+    let mashSchedule = req.body.brew.mashSchedule;
+    let userId = req.body.id;
     let brewId = '';
-//    console.log(req.query);
+    
     const recipe = {
         brewName,
         abv,
@@ -53,12 +54,14 @@ router.post('/', jsonParser, (req, res) => {
         brewName: brewName
     }).exec()
     .then(function (brew) {
+        console.log(brew);
+        console.log(recipe);
         console.log('seeing if you have a recipe with the same name...');
         if (brew == "null" || brew == null || brew == "") {
             return Brew.create({
                 brewName: recipe.brewName,
                 abv: recipe.abv,
-                userId: req.query.userId,
+                userId: userId,
                 unique: false
             })
             .then(brew => {

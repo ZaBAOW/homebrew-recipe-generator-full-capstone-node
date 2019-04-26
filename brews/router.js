@@ -362,9 +362,10 @@ router.get('/get-one/:keyword', (req, res) => {
         for(var i=0; i < brews.length; i++) {
             console.log('sorting through brews');
             if(brews[i].brewName.includes(keyword)) {
+                console.log('adding:', brews[i]);
                 searchResults.push(brews[i]);
             } else {
-                return;
+                console.log('brewname did not match keyword');
             }
         }
         console.log(`Found all beers that contain `, keyword);

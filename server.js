@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -21,6 +22,7 @@ const {router: userRouter} = require('./users');
 const {router: brewRouter} = require('./brews');
 
 const app = express();
+app.use(cors());
 const jsonParser = bodyParser.json;
 
 app.use(express.static('public'));

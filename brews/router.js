@@ -274,6 +274,7 @@ router.get('/getArchive/:id', jsonParser, (req, res) => {
 // Get by brewId to retrieve user's brews for brewviewer
 router.get('/viewBrew/:id', jsonParser, (req, res) => {
     const id = req.params.id;
+    console.log('bringing up brew:', id);
     return Brew.find({ _id: id}).exec()
         .then((brew) => {;
             let hop = '';

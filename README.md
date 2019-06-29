@@ -42,44 +42,44 @@ homebrewers
             database
 
 ### User Router
-    #### GET
-        '/':
-                retrieves all existing users from the database 
-                
-        '/:id':
-                retrieves a single user with the matching given user id
-                
-    #### DELETE
-        there are no DELETE enpoints
-        
-    #### PUT
-        there are not PUT enpoints
-        
-    #### POST
-        '/':
-                creates a new user in database after user has singed up for
-                the site.
+#### GET
+    '/':
+            retrieves all existing users from the database 
+
+    '/:id':
+            retrieves a single user with the matching given user id
+
+#### DELETE
+    there are no DELETE enpoints
+
+#### PUT
+    there are not PUT enpoints
+
+#### POST
+    '/':
+            creates a new user in database after user has singed up for
+            the site.
                 
 ### Auth Router
-    #### GET
-        "/userLoggedIn":
-                retireves a list of users that are currently logged into the site
-                
-    #### DELETE
-        "/userLoggedIn"
-                removes a user from the logged in list after logging out
-                
-    #### PUT
-        There are no PUT endpoints
-    #### POST
-        '/login':
-                creates an authToken for the user to verify their logged in status on the site
-                
-        '/refresh':
-                refreshes a users authToken in the event of authToken expiration in order to perserver the user's "logged in" status
-                
-        "/userLoggedIn":
-                addes the user to the list of logged in users so it can be accessed in by the other respective endpoints
+#### GET
+    "/userLoggedIn":
+            retireves a list of users that are currently logged into the site
+
+#### DELETE
+    "/userLoggedIn"
+            removes a user from the logged in list after logging out
+
+#### PUT
+    There are no PUT endpoints
+#### POST
+    '/login':
+            creates an authToken for the user to verify their logged in status on the site
+
+    '/refresh':
+            refreshes a users authToken in the event of authToken expiration in order to perserver the user's "logged in" status
+
+    "/userLoggedIn":
+            addes the user to the list of logged in users so it can be accessed in by the other respective endpoints
                 
 ## Technical
 Homebrew-recipe-generator was built with:

@@ -10,37 +10,37 @@ homebrewers
 ## API enpoint purposes
 
 ### Brew Router
-    #### GET
-        '/getArchive/:id':
-                parses database for current user's id and retrieves all
-                brews that have the matching user id value.
-                
-        '/viewBrew/:id':
-                parses for and retrieves all parts of the selected brew
-                to be viewed either on the browser page or archive page.
-                
-        '/get-all':
-                retrieves all brews currently in the database
-                
-        '/get-one/:keyword':
-                retrieves all brews that have a brewName value that
-                includes the string value provided by the user's 
-                search input
-                
-    #### DELETE
-        '/deleteRecipe/:id':
-                removes the requested brew and respective recipe elements
-                from the database. (to be implemented further down development)
-                
-    #### PUT
-        '/:id':
-                updates values of requested brew recipe with values given by the user
-                
-    #### POST
-        '/':
-                posts a brew and its respective recipe elements to the 
-                database
-                
+#### GET
+    '/getArchive/:id':
+            parses database for current user's id and retrieves all
+            brews that have the matching user id value.
+
+    '/viewBrew/:id':
+            parses for and retrieves all parts of the selected brew
+            to be viewed either on the browser page or archive page.
+
+    '/get-all':
+            retrieves all brews currently in the database
+
+    '/get-one/:keyword':
+            retrieves all brews that have a brewName value that
+            includes the string value provided by the user's 
+            search input
+
+#### DELETE
+    '/deleteRecipe/:id':
+            removes the requested brew and respective recipe elements
+            from the database. (to be implemented further down development)
+
+#### PUT
+    '/:id':
+            updates values of requested brew recipe with values given by the user
+
+#### POST
+    '/':
+            posts a brew and its respective recipe elements to the 
+            database
+
 ### User Router
     #### GET
         '/':

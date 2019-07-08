@@ -42,6 +42,7 @@ describe('/api/users', function() {
                 return chai.request(app).post('/users').send(newUser);
             })
              .then(function(res) {
+                console.log(res.body);
                 expect(res).to.have.status(201);
                 expect(res).to.be.a('object');
                 expect(res.body).to.include.keys('username','password','id');

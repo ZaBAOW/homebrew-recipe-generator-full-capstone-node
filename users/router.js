@@ -29,7 +29,7 @@ router.post('/', jsonParser, (req, res) => {
   const stringFields = ['username', 'password'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
-  );
+  ); 
 
   if (nonStringField) {
     return res.status(422).json({
@@ -127,7 +127,7 @@ router.post('/', jsonParser, (req, res) => {
       console.log(JWT_SECRET);
       const token = jwt.sign(body, JWT_SECRET);
       console.log(token);
-      return res.json({ token })
+      return res.status(201).json({ token });
     })
     .catch(err => {
       // Forward validation errors on to the client, otherwise give a 500

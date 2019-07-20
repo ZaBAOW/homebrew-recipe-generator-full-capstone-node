@@ -56,8 +56,35 @@ describe('/api/brews', function() {
         return Brew.remove({});
     });
 //    
-    it('should retrieve all brews in the database', function() {
+//    it('should retrieve all brews in the database', function() {
+//        let res;
+//        return Brew.create(
+//            {
+//                brewName,
+//                abv,
+//                userId
+//            },
+//            {
+//                brewName: 'testBrew2',
+//                abv: 3,
+//                userId: 'testId2'
+//            }
+//        )
+//        .then(()=> chai.request(app).get('/brews/get-all'))
+//        .then(function(res) {
+//            console.log('all the brews found: ', res.body);
+//            expect(res).to.have.status(200);
+//            expect(res.body).to.be.an('array');
+//            expect(res.body).to.have.length(2);
+//        })
+//        .catch(err => {
+//            console.log(err);
+//        });
+//    });
+//
+    it('should retrieve all brews that match the given keyword', function() {
         let res;
+        const keyword = 'test'
         return Brew.create(
             {
                 brewName,
@@ -70,45 +97,14 @@ describe('/api/brews', function() {
                 userId: 'testId2'
             }
         )
-        .then(()=> chai.request(app).get('/brews/get-all'))
-        .then(function(res) {
-            console.log('all the brews found: ', res.body);
-            expect(res).to.have.status(200);
-            expect(res.body).to.be.an('array');
-            expect(res.body).to.have.length(2);
-        })
-        .catch(err => {
-            console.log(err);
+        .then(() => chai.request(app).get(`/brews/get-one/${keyword}`))
+            .then(function(res) {
+                console.log(`all brews that include ${keyword}`, res.body);
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('array');
+                expect(res.body.length).to.equal(2);
+            });
         });
-    });
-//
-////    it('should retrieve all brews that match the given keyword', function() {
-////        let res;
-////        const keyword = 'test'
-////        Brew.create(
-////            {
-////                brewName,
-////                abv,
-////                userId
-////            },
-////            {
-////                brewName: 'testBrew2',
-////                abv: 3,
-////                userId: 'testId2'
-////            }
-////        )
-////        .then(function() {
-////            return chai.request(app).get(`/brews/get-one/${keyword}`)
-////            .then(function(res) {
-////                console.log(`all brews that include ${keyword}`, res.body);
-////                expect(res).to.have.status(200);
-////                expect(res.body).to.be.an('array');
-////            });
-////        })
-////        .catch(err => {
-////            console.log(err);
-////        });
-////    });
 ////
 ////    it('should retrieve all beers created by a user', function() {
 ////        let res;

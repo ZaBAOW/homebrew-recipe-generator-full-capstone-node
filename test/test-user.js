@@ -29,24 +29,24 @@ describe('/api/users', function() {
         return User.remove({});
     });
     
-    describe('POST', function() {
-        it('should post a new user to the user collection', function() {
-            let res;
-            const newUser = {
-                username: username,
-                password: password
-            };
-            
-            return User.hashPassword(newUser.password)
-             .then(function() {
-                return chai.request(app).post('/users').send(newUser);
-            })
-             .then(function(res) {
-                console.log(res.body);
-                expect(res).to.have.status(201);
-            });
-        });
-    });
+//    describe('POST', function() {
+//        it('should post a new user to the user collection', function() {
+//            let res;
+//            const newUser = {
+//                username: username,
+//                password: password
+//            };
+//            
+//            return User.hashPassword(newUser.password)
+//             .then(function() {
+//                return chai.request(app).post('/users').send(newUser);
+//            })
+//             .then(function(res) {
+//                console.log(res.body);
+//                expect(res).to.have.status(201);
+//            });
+//        });
+//    });
     
 //    describe('GET', function() {
 //        it('should return empty users array', function( done ) {

@@ -1,13 +1,13 @@
-//'use strict';
-//const chai = require('chai');
-//const chaiHttp = require('chai-http');
-//
-//const {app, runServer, closeServer} = require('../server');
-//const {Brew, Hops, Yeast, Malt, Mash} = require('../brews/index');
-//const {TEST_DATABASE_URL} = require('../config');
-//
-//const expect = chai.expect;
-//chai.use(chaiHttp);
+'use strict';
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+
+const {app, runServer, closeServer} = require('../server');
+const {Brew, Hops, Yeast, Malt, Mash} = require('../brews/index');
+const {TEST_DATABASE_URL} = require('../config');
+
+const expect = chai.expect;
+chai.use(chaiHttp);
 //
 //
 //function seedBrews() {
@@ -28,49 +28,59 @@
 //    return Brew.create(brew, brew2);
 //}
 //
-//describe('/api/brews', function() {
-//    const brewName = 'testBrew';
-//    const abv = 'test%';
-//    const userId = 'testId';
-//    const hopsName = 'testHops';
-//    const hopsMeasure = 'testHopsMeasure';
-//    const maltName = 'testMalt';
-//    const maltMeasure = 'testMaltMeasure';
-//    const yeastName = 'testYeast';
-//    const yeastMeasure = 'testYeastMeasure';
-//    const yeastSchedule = 'testYeastSchedule'
-//    const mashSchedule = 'testMashSchedule';
+describe('/api/brews', function() {
+    const brewName = 'testBrew';
+    const abv = 'test%';
+    const userId = 'testId';
+    const hopsName = 'testHops';
+    const hopsMeasure = 'testHopsMeasure';
+    const maltName = 'testMalt';
+    const maltMeasure = 'testMaltMeasure';
+    const yeastName = 'testYeast';
+    const yeastMeasure = 'testYeastMeasure';
+    const yeastSchedule = 'testYeastSchedule'
+    const mashSchedule = 'testMashSchedule';
+    
+    
+    before(function() {
+        return runServer(TEST_DATABASE_URL);
+    });
+    
+    after(function() {
+        return closeServer();
+    });
+    
+    beforeEach(function() {});
+
+    afterEach(function() {
+        return Brew.remove({});
+    });
 //    
-//    
-//    before(function() {
-//        return runServer(TEST_DATABASE_URL);
-//    });
-//
-//    after(function(){
-//        return closeServer();
-//    });
-//
-//    beforeEach(function() {
-//        console.log('made a brew collection')
-//    });
-//
-//    afterEach(function() {
-//        
-//    });
-//    
-//    it('should retrieve all brews in the database', function() {
-//        let res;
-//         return chai.request(app).get('/brews/get-all')
-//        .then(function(res) {
-//            console.log('all the brews found: ', res.body);
-//            expect(res).to.have.status(200);
-//            expect(res.body).to.be.an('array');
-//            expect(res.body).to.have.length(2);
-//        })
-//        .catch(err => {
-//            console.log(err);
-//        });
-//    });
+    it('should retrieve all brews in the database', function() {
+        let res;
+        return Brew.create(
+            {
+                brewName,
+                abv,
+                userId
+            },
+            {
+                brewName: 'testBrew2',
+                abv: 3,
+                userId: 'testId2'
+            }
+        )
+        .then(()=> chai.request(app).get('/brews/get-all'))
+        .then(function(res) {
+            console.log('all the brews found: ', res.body);
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.an('array');
+            expect(res.body).to.have.length(2);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    });
 //
 ////    it('should retrieve all brews that match the given keyword', function() {
 ////        let res;
@@ -220,4 +230,4 @@
 ////            expect(res).to.have.status(201);
 ////        });
 ////    });
-//});
+});

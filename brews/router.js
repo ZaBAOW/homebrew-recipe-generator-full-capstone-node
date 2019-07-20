@@ -343,7 +343,8 @@ router.get('/get-all', (req, res) => {
     return Brew.find()
         .then((brew) => {
             console.log('brews retrieved');
-            return res.status(200).send(brew).end();
+            console.log(brew.length);
+            return res.status(200).send(brew).end(brew);
         })
         .catch((err) => {
             console.log(err);
@@ -370,7 +371,7 @@ router.get('/get-one/:keyword', (req, res) => {
             }
         }
         console.log(`Found all beers that contain `, keyword);
-        return res.status(200).send(searchResults).end();
+        return res.status(200).send(searchResults).end(searchResults);
     })
     .catch((err) => {
         console.log(err);

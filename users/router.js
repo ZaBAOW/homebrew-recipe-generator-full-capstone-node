@@ -153,10 +153,12 @@ router.get('/', (req, res) => {
 // get user by id
 router.get('/:id', (req, res) => {
     const idForRetrieval = req.params.id;
+    console.log('requested id:', idForRetrieval);
     User.findById(idForRetrieval)
     .then(user => {
+        console.log(user);
         console.log(`Retrieved user ${user.username} from the database`);
-        return res.status(200).json(user.serialize);
+        return res.status(200).json(user).end(user);
     })
     .catch(err => {
         console.log(err);

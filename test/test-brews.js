@@ -82,9 +82,33 @@ describe('/api/brews', function() {
 //        });
 //    });
 //
-    it('should retrieve all brews that match the given keyword', function() {
+//    it('should retrieve all brews that match the given keyword', function() {
+//        let res;
+//        const keyword = 'test'
+//        return Brew.create(
+//            {
+//                brewName,
+//                abv,
+//                userId
+//            },
+//            {
+//                brewName: 'testBrew2',
+//                abv: 3,
+//                userId: 'testId2'
+//            }
+//        )
+//        .then(() => chai.request(app).get(`/brews/get-one/${keyword}`))
+//            .then(function(res) {
+//                console.log(`all brews that include ${keyword}`, res.body);
+//                expect(res).to.have.status(200);
+//                expect(res.body).to.be.an('array');
+//                expect(res.body.length).to.equal(2);
+//            });
+//        });
+
+    it('should retrieve all beers created by a user', function() {
         let res;
-        const keyword = 'test'
+        const currentId = 'testId';
         return Brew.create(
             {
                 brewName,
@@ -94,42 +118,17 @@ describe('/api/brews', function() {
             {
                 brewName: 'testBrew2',
                 abv: 3,
-                userId: 'testId2'
+                userId: 'testId'
             }
         )
-        .then(() => chai.request(app).get(`/brews/get-one/${keyword}`))
+        .then(() => chai.request(app).get(`/brews/getArchive/${currentId}`))
             .then(function(res) {
-                console.log(`all brews that include ${keyword}`, res.body);
+                console.log(res.body);
                 expect(res).to.have.status(200);
-                expect(res.body).to.be.an('array');
-                expect(res.body.length).to.equal(2);
+                expect(res.body.data).to.be.an('array');
+                expect(res.body.data.length).to.equal(2);
             });
         });
-////
-////    it('should retrieve all beers created by a user', function() {
-////        let res;
-////        const currentId = 'testId';
-////        Brew.create(
-////            {
-////                brewName,
-////                abv,
-////                userId
-////            },
-////            {
-////                brewName: 'testBrew2',
-////                abv: 3,
-////                userId: 'testId'
-////            }
-////        )
-////        .then(function() {
-////            return chai.request(app).get(`/brews/getArchive/${currentId}`)
-////            .then(function(res) {
-////                console.log(res.body);
-////                expect(res).to.have.status(200);
-////                expect(res.body).to.be.an('array');
-////            });
-////        });
-////    });
 ////        
 ////    it('should retrieve the recipe contents for the selected brew', function() {
 ////        const keyword = brewName;

@@ -19,7 +19,7 @@ const router = express.Router();
 // Post to submit new brew to the database *for each variable of the recipe*
 router.post('/', jsonParser, (req, res) => {
     console.log('submitting homebrew');
-    console.log(req.body);
+    console.log('userId: ', req.body.id);
     let brewName = req.body.brew.brewName;
     let abv = req.body.brew.abv;
     let hopsName = req.body.brew.hopsName;
@@ -45,7 +45,7 @@ router.post('/', jsonParser, (req, res) => {
         maltMeasurement,
         mashSchedule
     }
-//    console.log(recipe);
+    console.log('recipe ', recipe);
     
     let ObjectId = mongoose.Types.ObjectId;
     let userRecipe = new ObjectId(userId);
@@ -54,7 +54,7 @@ router.post('/', jsonParser, (req, res) => {
         brewName: brewName
     }).exec()
     .then(function (brew) {
-        console.log(brew);
+        console.log('brew: ', brew);
         console.log(recipe);
         console.log('seeing if you have a recipe with the same name...');
         if (brew == "null" || brew == null || brew == "") {
@@ -277,6 +277,7 @@ router.get('/viewBrew/:id', jsonParser, (req, res) => {
     console.log('bringing up brew:', id);
     return Brew.find({ _id: id}).exec()
         .then((brew) => {;
+            console.log('found brews with matching id!', brew);
             let hop = '';
             let malts = '';
             let yeasts = '';

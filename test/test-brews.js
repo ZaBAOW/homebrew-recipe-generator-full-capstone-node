@@ -53,7 +53,11 @@ describe('/api/brews', function() {
     beforeEach(function() {});
 
     afterEach(function() {
-        return Brew.remove({});
+        Brew.remove({});
+        return Hops.remove({});
+        return Yeast.remove({});
+        return Malt.remove({});
+        return Mash.remove({});
     });
 //    
 //    it('should retrieve all brews in the database', function() {
@@ -130,59 +134,58 @@ describe('/api/brews', function() {
 //            });
 //        });
         
-//    it('should retrieve the recipe contents for the selected brew', function() {
-//        const userId = 'testUserId';
-//        return Brew.create({
-//            brewName,
-//            abv,
-//            userId
-//        })
-//        .then(brew => {
-//            console.log('made brewname', brew);
-//            const id = JSON.stringify(brew._id);
-//            return Hops.create({
-//                hopsName,
-//                hopsMeasurement: hopsMeasure,
-//                brewId: id
-//            })
-//        })
-//        .then(brew => {
-//            console.log('made hops', brew);
-//            const id = JSON.stringify(brew._id);
-//            return Malt.create({
-//                maltName,
-//                maltMeasurement: maltMeasure,
-//                brewId: id
-//            })
-//        })
-//        .then(brew => {
-//            console.log('made malt');
-//            const id = JSON.stringify(brew._id);
-//            return Yeast.create({
-//                yeastName,
-//                yeastMeasurement: yeastMeasure,
-//                yeastSchedule,
-//                brewId: id
-//            })
-//        })
-//        .then(brew => {
-//            console.log('made yeast');
-//            const id = JSON.stringify(brew._id);
-//            return Mash.create({
-//                mashSchedule,
-//                brewId: id
-//            })
-//        })
-//        .then(brew => {
-//            const id = brew._id;
-//            console.log(id);
-//            return chai.request(app).get(`/brews/viewBrew/${id}`)
-//            .then(res => {
-//                console.log('selected brew recipe', res.body);
-//                expect(res).to.have.status(200);
-//            });
-//        });
-//    });
+    it('should retrieve the recipe contents for the selected brew', function() {
+        return Brew.create({
+            brewName,
+            abv,
+            userId
+        })
+        .then(brew => {
+            console.log('made brewname');
+            const id = brew._id;
+            return Hops.create({
+                hopsName,
+                hopsMeasurement: hopsMeasure,
+                brewId: id
+            })
+        })
+        .then(brew => {
+            console.log('made hops');
+            const id = brew.brewId;
+            return Malt.create({
+                maltName,
+                maltMeasurement: maltMeasure,
+                brewId: id
+            })
+        })
+        .then(brew => {
+            console.log('made malt');
+            const id = brew.brewId;
+            return Yeast.create({
+                yeastName,
+                yeastMeasurement: yeastMeasure,
+                yeastSchedule,
+                brewId: id
+            })
+        })
+        .then(brew => {
+            console.log('made yeast');
+            const id = brew.brewId;
+            return Mash.create({
+                mashSchedule,
+                brewId: id
+            })
+        })
+        .then(brew => {
+            const id = brew.brewId;
+            console.log(id);
+            return chai.request(app).get(`/brews/viewBrew/${id}`)
+            .then(res => {
+                console.log('selected brew recipe', res.body);
+                expect(res).to.have.status(200);
+            });
+        });
+    });
 ////
 ////    
 //    it('should remove the brew by given id', function () {
@@ -203,25 +206,25 @@ describe('/api/brews', function() {
 //    });
 ////    
 ////
-    it('should post a new recipe to the database', function () {
-        const brewObj = {
-            brewName,
-            abv,
-            maltName,
-            maltMeasure,
-            yeastName,
-            yeastMeasure,
-            hopsName,
-            hopsMeasure,
-            yeastSchedule,
-            mashSchedule
-        };
-        const userBrew = { brew: brewObj, id: userId };
-        console.log('userBrew: ', userBrew);
-        return chai.request(app).post('/brews/').send(userBrew)
-        .then(res => {
-            console.log(res.body);
-            expect(res).to.have.status(201);
-        });
-    });
+//    it('should post a new recipe to the database', function () {
+//        const brewObj = {
+//            brewName,
+//            abv,
+//            maltName,
+//            maltMeasure,
+//            yeastName,
+//            yeastMeasure,
+//            hopsName,
+//            hopsMeasure,
+//            yeastSchedule,
+//            mashSchedule
+//        };
+//        const userBrew = { brew: brewObj, id: userId };
+//        console.log('userBrew: ', userBrew);
+//        return chai.request(app).post('/brews/').send(userBrew)
+//        .then(res => {
+//            console.log(res.body);
+//            expect(res).to.have.status(201);
+//        });
+//    });
 });

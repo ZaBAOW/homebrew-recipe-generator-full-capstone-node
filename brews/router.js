@@ -247,7 +247,7 @@ router.put('/:id', jsonParser, (req, res) => {
 router.get('/getArchive/:id', jsonParser, (req, res) => {
     const id = req.params.id;
     console.log("your id: ", id);
-    return Brew.find({ userId: id}).exec()
+    return Brew.find({ _id: id}).exec()
         .then((brew) => {
             console.log('brew list: ', brew);
             console.log('length of brew: ', brew.length);
@@ -274,7 +274,8 @@ router.get('/getArchive/:id', jsonParser, (req, res) => {
 // Get by brewId to retrieve user's brews for brewviewer
 router.get('/viewBrew/:id', jsonParser, (req, res) => {
     const id = req.params.id;
-    console.log('bringing up brew:', id);
+    const trimId = id.replace(/\"+/g, '');
+    console.log('bringing up brew:', trimId);
     return Brew.find({ _id: id}).exec()
         .then((brew) => {;
             console.log('found brews with matching id!', brew);
@@ -284,7 +285,7 @@ router.get('/viewBrew/:id', jsonParser, (req, res) => {
             let mashes = '';
             for (var i=0; i < brew.length; i++) {
                 console.log('brew: ', brew[i]._id);
-                const brewId = JSON.stringify(brew[i]._id);
+                const brewId = brew[i]._id;
                 console.log('current interval: ', i);
                 console.log('stringified brewId: ', brewId);
                 Hops.find({brewId: brewId})

@@ -54,7 +54,7 @@ router.post("/userLoggedIn", function(req, res) {
     Logged.find({})
       .then(users => {
         console.log(users);
-        res.json({loggedIn: users});
+        return res.status(201).json({loggedIn: users});
       });
   })
   .catch(err => {
@@ -69,7 +69,7 @@ router.delete("/userLoggedIn", function(req, res) {
     })
     .then(user => {
         console.log(`Deleted user`);
-        return res.status(201).json({message: 'Deleted user from login list'});
+        return res.status(204).json({message: 'Deleted user from login list'});
     })
     .catch(err => {
         return res.status(400).json(res.statusMessage);

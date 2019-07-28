@@ -66,7 +66,7 @@ router.post('/', jsonParser, (req, res) => {
             })
             .then(brew => {
                 console.log('submitted brewname and abv');
-                brewId = JSON.stringify(brew._id);
+                brewId = brew._id;
                 console.log(brewId);
                 return Hops.create({
                     hopsName: recipe.hopsName,
@@ -303,7 +303,6 @@ router.get('/viewBrew/:id', jsonParser, (req, res) => {
                             Mash.find({brewId: brewId})
                             .then(mash => {
                                 console.log('mash', mash[0]);
-                                mashes = mash[0];
                                 return res.status(200).json({
                                     data: {
                                         brew,

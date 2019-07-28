@@ -252,7 +252,7 @@ router.put('/:id', jsonParser, (req, res) => {
 router.get('/getArchive/:id', jsonParser, (req, res) => {
     const id = req.params.id;
     console.log("your id: ", id);
-    return Brew.find({ userid: id}).exec()
+    return Brew.find({ userId: id}).exec()
         .then((brew) => {
             console.log('brew list: ', brew);
             console.log('length of brew: ', brew.length);

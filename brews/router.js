@@ -20,7 +20,12 @@ const router = express.Router();
 router.post('/', jsonParser, (req, res) => {
     console.log('submitting homebrew');
     console.log('userId: ', req.body.id);
+    
     let brewName = req.body.brew.brewName;
+    if(/\s/.test(brewName)) {
+        brewName = brewName.replace(/ /g,"_");
+        console.log("brewName editted: ", brewName);
+    }
     let abv = req.body.brew.abv;
     let hopsName = req.body.brew.hopsName;
     let hopsMeasurement = req.body.brew.hopsMeasure;

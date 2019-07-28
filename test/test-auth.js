@@ -123,13 +123,13 @@ describe('Auth endpoints', function () {
 //            });
 //        });
         
-        it('Should post a new persistant session', function() {
-            const user = {user: username};
-            return chai.request(app).post('/auth/userLoggedIn').send(user)
-            .then(res => {
-                console.log(res.body);
-                expect(res).to.have.status(201);
-            })
-        });
+//        it('Should post a new persistant session', function() {
+//            const user = {user: username};
+//            return chai.request(app).post('/auth/userLoggedIn').send(user)
+//            .then(res => {
+//                console.log(res.body);
+//                expect(res).to.have.status(201);
+//            })
+//        });
     });
 });

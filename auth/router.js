@@ -15,7 +15,7 @@ const createAuthToken = function(user) {
     expiresIn: config.JWT_EXPIRY,
     algorithm: 'HS256'
   }
-  return jwt.sign(claims, config.JWT_SECRET, "HS256"
+  return jwt.sign(claims, config.JWT_SECRET, "HS256")
 };
 
 const localAuth = passport.authenticate('local', {session: false});

@@ -47,7 +47,7 @@ router.post("/userLoggedIn", function(req, res) {
   console.log("creating persistant logged session...");
   console.log(req.body);
   Logged.create({
-    usersLoggedIn: req.body.user.username
+    usersLoggedIn: req.body.user
   })
   .then(user => {
     console.log(user);

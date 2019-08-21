@@ -46,16 +46,16 @@ router.get("/userLoggedIn", function(req, res) {
 
 router.post("/userLoggedIn", function(req, res) {
   console.log("creating persistant logged session...");
-  console.log(req.body);
+  console.log('session for: ', req.body);
   Logged.create({
-    usersLoggedIn: req.body.user
+    usersLoggedIn: req.body.username
   })
   .then(user => {
-    console.log(user);
+    console.log('response', user);
     Logged.find({})
       .then(users => {
-        console.log(users);
-        return res.status(201).json({loggedIn: users});
+        console.log('nested response', user);
+        return res.status(201).json({loggedIn: user});
       });
   })
   .catch(err => {

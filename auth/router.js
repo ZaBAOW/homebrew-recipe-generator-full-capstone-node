@@ -9,9 +9,12 @@ const config = require('../config');
 const router = express.Router();
 
 const createAuthToken = function(user) {
-  console.log('secret', JSON.stringify(config.JWT_SECRET));
   console.log('processing token for: ', user);
-  return jwt.sign({subject: user.username}, config.JWT_SECRET, {expiresIn: config.JWT_EXPIRY}, 'HS256');
+  return jwt.sign({user}, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
 };
 
 const localAuth = passport.authenticate('local', {session: false});

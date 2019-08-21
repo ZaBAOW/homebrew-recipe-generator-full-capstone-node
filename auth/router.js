@@ -9,7 +9,7 @@ const config = require('../config');
 const router = express.Router();
 
 const createAuthToken = function(user) {
-  console.log('processing token...');
+  console.log('processing token for: ', user);
   return jwt.sign({user}, config.JWT_SECRET, {
     subject: user.username,
     expiresIn: config.JWT_EXPIRY,
@@ -23,7 +23,7 @@ router.use(bodyParser.json());
 router.post('/login', localAuth, (req, res) => {
   console.log('generating your authToken...');
   const authToken = createAuthToken(req.user.serialize());
-  res.json({authToken});
+  return res.json({authToken});
 });
 
 const jwtAuth = passport.authenticate('jwt', {session: false});

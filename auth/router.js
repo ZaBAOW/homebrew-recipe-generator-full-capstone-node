@@ -10,11 +10,12 @@ const router = express.Router();
 
 const createAuthToken = function(user) {
   console.log('processing token for: ', user);
-  return jwt.sign(config.JWT_SECRET, {
+  const claims = {
     subject: user.username,
     expiresIn: config.JWT_EXPIRY,
     algorithm: 'HS256'
-  });
+  }
+  return jwt.sign(claims, config.JWT_SECRET, "HS256"
 };
 
 const localAuth = passport.authenticate('local', {session: false});

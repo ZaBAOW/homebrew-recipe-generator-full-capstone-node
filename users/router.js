@@ -85,7 +85,7 @@ router.post('/', jsonParser, (req, res) => {
 
   if (tooSmallField || tooLargeField) {
     return res.status(422).json({
-      code: 422,
+      code: 406,
       reason: 'ValidationError',
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField]

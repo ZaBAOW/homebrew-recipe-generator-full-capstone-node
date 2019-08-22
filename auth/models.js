@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const userLoggedSchema = new mongoose.Schema({
-  usersLoggedIn: String
+  userLoggedIn: String
 });
 
 const Logged = mongoose.model("session", userLoggedSchema);

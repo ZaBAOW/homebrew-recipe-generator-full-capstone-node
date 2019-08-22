@@ -4,6 +4,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const { Logged } = require('./models');
+const { User } = require('../users/models');
 
 const config = require('../config');
 const router = express.Router();
@@ -48,14 +49,19 @@ router.post("/userLoggedIn", function(req, res) {
   console.log("creating persistant logged session...");
   console.log('session for: ', req.body.username);
   Logged.create({
-    usersLoggedIn: req.body.username
+    userLoggedIn: req.body.username
   })
   .then(user => {
     console.log('response', user);
-    Logged.find({})
+    Logged.findOne({userLoggedIn: user.userLoggedIn})
       .then(users => {
-        console.log('nested response', user);
-        return res.status(201).json({loggedIn: user});
+        console.log('users', users)
+        User.find({username: users.userLoggedIn})
+         .then(response => {
+           console.log('user search result: ', response[0]._id);
+           const id = response[0]._id;
+           return res.status(201).json({loggedIn: id});
+        });
       });
   })
   .catch(err => {

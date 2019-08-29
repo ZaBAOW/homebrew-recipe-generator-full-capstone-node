@@ -8,6 +8,12 @@ homebrewers
 ### Active demo
 https://homebrew-recipe-generator-reac.herokuapp.com/
 
+React repository:
+https://github.com/ZaBAOW/homebrew-recipe-generator-full-capstone-react
+
+Node repository:
+https://github.com/ZaBAOW/homebrew-recipe-generator-full-capstone-node
+
 ## User Stories
  - As a visiter, I should be able to create an account
  - As a registered user, I should be able to login with my account

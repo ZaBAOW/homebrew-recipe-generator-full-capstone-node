@@ -40,16 +40,23 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
     });
 });
 
-const jwtStrategy = new JwtStrategy(
-  {
-    secretOrKey: JWT_SECRET,
-    // Look for the JWT as a Bearer auth header
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
-    // Only allow HS256 tokens - the same as the ones we issue
-    algorithms: ['HS256']
-  },
-  (payload, done) => {
-    done(null, payload.user);
+var opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+opts.secretOrKey = JWT_SECRET;
+opts.algorithm = ['HS256'];
+
+const jwtStrategy = new JwtStrategy(opts, (payload, done) => {
+    console.log('payload received', payload);
+    User.findOne({username: payload.sub}, function(err, user) {
+        if(err) {
+            return done(null, user);
+        }
+        if(user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+    });
   }
 );
 
